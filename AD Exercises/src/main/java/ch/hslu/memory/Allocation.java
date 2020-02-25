@@ -29,11 +29,11 @@ public final class Allocation implements Comparable<Allocation>{
             return false;
         }
         Allocation alloc = (Allocation) obj;
-        return this.size == alloc.size && this.adress == alloc.size;
+        return this.size == alloc.size && this.adress == alloc.adress;
     }
 
     @Override
     public int compareTo(Allocation o) {
-        return o.adress - this.adress;
+        return this.adress - o.adress;
     }
 }
