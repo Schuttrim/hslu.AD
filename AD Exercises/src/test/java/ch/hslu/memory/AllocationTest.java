@@ -1,5 +1,6 @@
 package ch.hslu.memory;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -82,5 +83,10 @@ class AllocationTest {
         int result = testee.compareTo(compare);
 
         assertEquals(0,result);
+    }
+
+    @Test
+    void equalsVerify() {
+        EqualsVerifier.forClass(Allocation.class).verify();
     }
 }

@@ -3,6 +3,9 @@ package ch.hslu.memory;
 public final class Allocation implements Comparable<Allocation>{
     private final int adress;
 
+    public int getLastAdress() {
+        return this.adress + this.size;
+    }
     public int getAdress() {
         return adress;
     }
