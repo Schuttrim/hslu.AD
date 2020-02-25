@@ -1,12 +1,10 @@
 package ch.hslu.memory;
 
-import java.lang.reflect.Type;
+public final class Allocation implements Comparable<Allocation>{
+    private final int adress;
 
-public final class Allocation {
-    private final int startAdress;
-
-    public int getStartAdress() {
-        return startAdress;
+    public int getAdress() {
+        return adress;
     }
 
     public int getSize() {
@@ -15,14 +13,14 @@ public final class Allocation {
 
     private final int size;
 
-    public Allocation(int startAdress, int size){
-        this.startAdress = startAdress;
+    public Allocation(int adress, int size){
+        this.adress = adress;
         this.size = size;
     }
 
     @Override
     public int hashCode() {
-        return Integer.hashCode (this.startAdress + this.size + 31);
+        return Integer.hashCode (this.adress + this.size + 31);
     }
 
     @Override
@@ -31,6 +29,11 @@ public final class Allocation {
             return false;
         }
         Allocation alloc = (Allocation) obj;
-        return this.size == alloc.size && this.startAdress == alloc.size;
+        return this.size == alloc.size && this.adress == alloc.size;
+    }
+
+    @Override
+    public int compareTo(Allocation o) {
+        return o.adress - this.adress;
     }
 }
