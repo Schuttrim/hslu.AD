@@ -3,6 +3,7 @@ package ch.hslu.tree;
 import ch.hslu.tree.inorder.InorderIterator;
 import jdk.jshell.spi.ExecutionControl;
 
+import java.awt.dnd.InvalidDnDOperationException;
 import java.util.Comparator;
 import java.util.Iterator;
 
@@ -27,6 +28,26 @@ public class TreeSet<T> implements Tree<T> {
         return this.comparator.compare(value, nodeValue.getValue());
     }
 
+    private Node<T> getParent(Node<T> current, T value){
+        if (current.isLeaf()) {
+            return null; // Begin on Leaf -> no Parent
+        }
+        int result = this.compareInOrder(value, current);
+        Node<T> next;
+        if (result < 0){
+            next = current.getLeftNode();
+        } else if (result > 0) {
+            next = current.getRightNode();
+        } else {
+            return null; // and again no parent
+        }
+
+        if (this.compareInOrder(value, next) == 0) {
+            return current; // this is the parent
+        }
+        return getParent(next, value);
+    }
+
     private Node<T> getParentOrNode(Node<T> current, T value){
         if (current.isLeaf())
             return current; // parent or node
@@ -42,7 +63,45 @@ public class TreeSet<T> implements Tree<T> {
 
     @Override
     public void remove(T value) {
-        throw new Error("Not Implemented");
+        Node<T> parent = this.getParent(this.root, value);
+        if (parent == null) {
+            this.root = null;
+            return;
+        }
+        int comparison = compareInOrder(value, parent);
+        if (comparison == 0) {
+            throw new InternalError("Error in getParent() Method");
+        }
+        Node<T> delItem = comparison > 0 ? parent.getRightNode() : parent.getLeftNode();
+
+        if (delItem.isLeaf()){ // delete the according child
+            if(comparison > 0) {
+                parent.setRightNode(null);
+            }
+            else {
+                parent.setLeftNode(null);
+            }
+            return;
+        } else if ((delItem.getRightNode() == null) != (delItem.getLeftNode() == null)) { // only one child
+            Node<T> onlyChild = delItem.getRightNode() != null ? delItem.getRightNode() : delItem.getLeftNode();
+            if (comparison > 0) {
+                parent.setRightNode(onlyChild);
+            } else {
+                parent.setLeftNode(onlyChild);
+            }
+        } else { // two childs
+            InorderIterator<T> iterator = new InorderIterator<>(this.root);
+            Node<T> iteratingNode = null;
+            while (iterator.hasNext() && iteratingNode == delItem){
+                iteratingNode = iterator.nextNode();
+            }
+            if (!iterator.hasNext()){
+                throw new InternalError("Sequence should alaways have next at this point.");
+            }
+            Node<T> nextInorder = iterator.nextNode();
+            Node<T> nextInordersParent = this.getParent(root, nextInorder.getValue());
+        }
+
     }
 
     @Override

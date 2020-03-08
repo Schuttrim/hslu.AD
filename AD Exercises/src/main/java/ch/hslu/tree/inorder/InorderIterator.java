@@ -24,17 +24,20 @@ public class InorderIterator<T> implements Iterator<T> {
 
     @Override
     public T next() {
-        T returnValue = this.current.getNode().getValue();
+        return this.nextNode().getValue();
+    }
+
+    public Node<T> nextNode() {
+        Node<T> returnNode = this.current.getNode();
         this.current.setStatus(InorderStatus.RETURN);
         this.setNext();
-        return returnValue;
+        return returnNode;
     }
 
     private void setNext() {
         if (this.current.getStatus() == InorderStatus.LEFT ){
             while (this.current.getNode().getLeftNode() != null){
                 StackElement element = new StackElement(this.current.getNode().getLeftNode());
-                //this.current.setStatus(InorderStatus.RETURN);
                 this.parentNodes.push(this.current);
                 this.current = element;
             }
