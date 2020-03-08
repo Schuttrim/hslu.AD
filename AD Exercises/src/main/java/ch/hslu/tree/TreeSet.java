@@ -1,9 +1,7 @@
 package ch.hslu.tree;
 
 import ch.hslu.tree.inorder.InorderIterator;
-import jdk.jshell.spi.ExecutionControl;
 
-import java.awt.dnd.InvalidDnDOperationException;
 import java.util.Comparator;
 import java.util.Iterator;
 
@@ -65,34 +63,37 @@ public class TreeSet<T> implements Tree<T> {
     public void remove(T value) {
         Node<T> parent = this.getParent(this.root, value);
         if (parent == null) {
-            this.root = null;
-            return;
+            if (root.isLeaf()) {
+                this.root = null;
+                return;
+            }
         }
-        int comparison = compareInOrder(value, parent);
-        if (comparison == 0) {
-            throw new InternalError("Error in getParent() Method");
-        }
-        Node<T> delItem = comparison > 0 ? parent.getRightNode() : parent.getLeftNode();
+        Node<T> delItem = this.root;
+        if (parent != null) {
+            int comparison = compareInOrder(value, parent);
+            if (comparison == 0) {
+                throw new InternalError("Error in getParent() Method");
+            }
+            delItem = comparison > 0 ? parent.getRightNode() : parent.getLeftNode();
 
-        if (delItem.isLeaf()){ // delete the according child
-            if(comparison > 0) {
-                parent.setRightNode(null);
+            if (delItem.isLeaf()){ // delete the according child
+                if(comparison > 0) {
+                    parent.setRightNode(null);
+                }
+                else {
+                    parent.setLeftNode(null);
+                }
+                return;
             }
-            else {
-                parent.setLeftNode(null);
-            }
-            return;
-        } else if ((delItem.getRightNode() == null) != (delItem.getLeftNode() == null)) { // only one child
+        }
+
+        if ((delItem.getRightNode() == null) != (delItem.getLeftNode() == null)) { // only one child
             Node<T> onlyChild = delItem.getRightNode() != null ? delItem.getRightNode() : delItem.getLeftNode();
-            if (comparison > 0) {
-                parent.setRightNode(onlyChild);
-            } else {
-                parent.setLeftNode(onlyChild);
-            }
+            RerouteChildToParent(value, (Node<T>) parent, (Node<T>) onlyChild);
         } else { // two childs
             InorderIterator<T> iterator = new InorderIterator<>(this.root);
             Node<T> iteratingNode = null;
-            while (iterator.hasNext() && iteratingNode == delItem){
+            while (iterator.hasNext() && iteratingNode != delItem){
                 iteratingNode = iterator.nextNode();
             }
             if (!iterator.hasNext()){
@@ -101,16 +102,32 @@ public class TreeSet<T> implements Tree<T> {
             Node<T> nextInorder = iterator.nextNode();
             Node<T> nextInordersParent = this.getParent(root, nextInorder.getValue());
 
-            nextInordersParent.setLeftNode(nextInorder.getRightNode());
-            if (comparison > 0) {
-                parent.setRightNode(nextInorder);
+            if (nextInordersParent != delItem) {
+                nextInordersParent.setLeftNode(nextInorder.getRightNode());
+                RerouteChildToParent(value, (Node<T>) parent, (Node<T>) nextInorder);
+                nextInorder.setLeftNode(delItem.getLeftNode());
+                nextInorder.setRightNode(delItem.getRightNode());
             } else {
-                parent.setLeftNode(nextInorder);
+
             }
-            nextInorder.setLeftNode(delItem.getLeftNode());
-            nextInorder.setRightNode(delItem.getRightNode());
         }
 
+    }
+
+    private void RerouteChildToParent(T value, Node<T> parent, Node<T> child) {
+        if (parent != null){
+            int comparison = compareInOrder(value, parent);
+            if (comparison == 0) {
+                throw new InternalError("Error in getParent() Method");
+            }
+            if (comparison > 0) {
+                parent.setRightNode(child);
+            } else {
+                parent.setLeftNode(child);
+            }
+        } else {
+            this.root = child;
+        }
     }
 
     @Override

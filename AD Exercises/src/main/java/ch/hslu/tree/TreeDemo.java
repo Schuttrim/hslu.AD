@@ -7,19 +7,10 @@ import java.util.Iterator;
 
 public class TreeDemo {
     public static void main(final String[] args){
-        //IntegerSetDemo();
+        IntegerSetDemo();
 
         //AllocationDemo();
 
-        Tree<Integer> intTree = TreeSet.Create(); // Try to change to Hashsorted variant
-        intTree.add(10);
-        intTree.add(4);
-        intTree.add(9);
-        intTree.add(5);
-        intTree.add(15);
-        intTree.add(11);
-        intTree.add(6);
-        intTree.add(1);
 
     }
 
