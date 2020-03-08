@@ -100,6 +100,15 @@ public class TreeSet<T> implements Tree<T> {
             }
             Node<T> nextInorder = iterator.nextNode();
             Node<T> nextInordersParent = this.getParent(root, nextInorder.getValue());
+
+            nextInordersParent.setLeftNode(nextInorder.getRightNode());
+            if (comparison > 0) {
+                parent.setRightNode(nextInorder);
+            } else {
+                parent.setLeftNode(nextInorder);
+            }
+            nextInorder.setLeftNode(delItem.getLeftNode());
+            nextInorder.setRightNode(delItem.getRightNode());
         }
 
     }
