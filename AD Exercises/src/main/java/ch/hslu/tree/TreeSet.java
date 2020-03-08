@@ -7,18 +7,18 @@ import java.util.Iterator;
 
 public class TreeSet<T> implements Tree<T> {
     @Override
-    public void add(T item) {
+    public void add(T value) {
         if (this.root == null){
-            this.root = new Node<T>(item);
+            this.root = new Node<T>(value);
             return;
         }
 
-        Node<T> result = this.getParentOrNode(this.root, item);
-        int compare = this.compareInOrder(item, root.getValue());
+        Node<T> result = this.getParentOrNode(this.root, value);
+        int compare = this.compareInOrder(value, root.getValue());
         if (compare < 0) {
-            result.setLeftNode(new Node<T>(item));
+            result.setLeftNode(new Node<T>(value));
         } else if (compare > 0){
-            result.setRightNode(new Node<T>(item));
+            result.setRightNode(new Node<T>(value));
         }
     }
 
@@ -40,12 +40,12 @@ public class TreeSet<T> implements Tree<T> {
     }
 
     @Override
-    public void remove(T item) {
+    public void remove(T value) {
         throw new Error("Not Implemented");
     }
 
     @Override
-    public boolean has(T item) {
+    public boolean has(T value) {
         throw new Error("Not Implemented");
     }
 
