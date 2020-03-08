@@ -14,7 +14,7 @@ public class TreeSet<T> implements Tree<T> {
         }
 
         Node<T> result = this.getParentOrNode(this.root, value);
-        int compare = this.compareInOrder(value, root.getValue());
+        int compare = this.compareInOrder(value, root);
         if (compare < 0) {
             result.setLeftNode(new Node<T>(value));
         } else if (compare > 0){
@@ -22,14 +22,14 @@ public class TreeSet<T> implements Tree<T> {
         }
     }
 
-    private int compareInOrder(T value, T nodeValue){
-        return this.comparator.compare(value, nodeValue);
+    private int compareInOrder(T value, Node<T> nodeValue){
+        return this.comparator.compare(value, nodeValue.getValue());
     }
 
     private Node<T> getParentOrNode(Node<T> current, T value){
         if (current.isLeaf())
             return current;
-        int result = this.compareInOrder(value, current.getValue());
+        int result = this.compareInOrder(value, current);
         if (result < 0){
             return this.getParentOrNode(current.getLeftNode(), value);
         } else if (result > 0) {
@@ -46,7 +46,12 @@ public class TreeSet<T> implements Tree<T> {
 
     @Override
     public boolean has(T value) {
-        throw new Error("Not Implemented");
+        if (this.root == null) {
+            return false;
+        }
+
+        Node<T> result = this.getParentOrNode(this.root, value);
+        return this.compareInOrder(value, result) == 0;
     }
 
     @Override
