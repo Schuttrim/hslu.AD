@@ -6,6 +6,12 @@ import java.util.Iterator;
 
 public class TreeDemo {
     public static void main(final String[] args){
+        //IntegerSetDemo();
+
+
+    }
+
+    private static void IntegerSetDemo() {
         Tree<Integer> intTree = TreeSet.Create();
         intTree.add(10);
         intTree.add(4);
