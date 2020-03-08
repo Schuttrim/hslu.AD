@@ -1,5 +1,6 @@
 package ch.hslu.tree;
 
+import ch.hslu.tree.inorder.InorderIterator;
 import jdk.jshell.spi.ExecutionControl;
 
 import java.util.Comparator;
@@ -14,7 +15,7 @@ public class TreeSet<T> implements Tree<T> {
         }
 
         Node<T> result = this.getParentOrNode(this.root, value);
-        int compare = this.compareInOrder(value, root);
+        int compare = this.compareInOrder(value, result);
         if (compare < 0) {
             result.setLeftNode(new Node<T>(value));
         } else if (compare > 0){
@@ -28,14 +29,14 @@ public class TreeSet<T> implements Tree<T> {
 
     private Node<T> getParentOrNode(Node<T> current, T value){
         if (current.isLeaf())
-            return current;
+            return current; // parent or node
         int result = this.compareInOrder(value, current);
         if (result < 0){
-            return this.getParentOrNode(current.getLeftNode(), value);
+            return current.getLeftNode() != null ? this.getParentOrNode(current.getLeftNode(), value) : current; // parent
         } else if (result > 0) {
-            return this.getParentOrNode(current.getRightNode(), value);
+            return current.getRightNode() != null ? this.getParentOrNode(current.getRightNode(), value) : current; // parent
         } else {
-            return current;
+            return current; // node
         }
     }
 
@@ -56,7 +57,7 @@ public class TreeSet<T> implements Tree<T> {
 
     @Override
     public Iterator<T> inorder() {
-        throw new Error("Not Implemented");
+        return new InorderIterator<T>(this.root);
     }
 
     private Comparator<T> comparator;
