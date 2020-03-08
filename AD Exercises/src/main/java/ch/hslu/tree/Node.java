@@ -27,6 +27,10 @@ public class Node<T> {
 
     private T value;
 
+    public boolean isLeaf(){
+        return this.getLeftNode() == null && this.getRightNode() == null;
+    }
+
     public Node(T value) {
         this.value = value;
     }
