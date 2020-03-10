@@ -97,7 +97,7 @@ public class TreeSet<T> implements Tree<T> {
                 iteratingNode = iterator.nextNode();
             }
             if (!iterator.hasNext()){
-                throw new InternalError("Sequence should alaways have next at this point.");
+                throw new InternalError("Sequence should always have next at this point.");
             }
             Node<T> nextInorder = iterator.nextNode();
             Node<T> nextInordersParent = this.getParent(root, nextInorder.getValue());
@@ -108,7 +108,33 @@ public class TreeSet<T> implements Tree<T> {
                 nextInorder.setLeftNode(delItem.getLeftNode());
                 nextInorder.setRightNode(delItem.getRightNode());
             } else {
+                Node<T> delItemParentParent = getParent(root, parent.getValue());
+                Node<T> nextInorderRightMost = nextInorder.getRightNode();
+                if (nextInorderRightMost != null){
+                    while (nextInorderRightMost.getRightNode() != null){
+                        nextInorderRightMost = nextInorderRightMost.getRightNode();
+                    }
+                    nextInorderRightMost.setRightNode(parent);
+                } else {
+                    nextInorder.setRightNode(parent);
+                }
+                parent.setLeftNode(null);
 
+                Node<T> nextInorderLeftMost = nextInorder.getLeftNode();
+                if (nextInorderLeftMost != null) {
+                    while (nextInorderLeftMost.getLeftNode() != null) {
+                        nextInorderLeftMost = nextInorderLeftMost.getLeftNode();
+                    }
+                    nextInorderLeftMost.setLeftNode(delItem.getLeftNode());
+                } else {
+                    nextInorder.setLeftNode(delItem.getLeftNode());
+                }
+
+                if (delItemParentParent != null){
+                    RerouteChildToParent(nextInorder.getValue(), delItemParentParent, nextInorder);
+                } else {
+                    this.root = nextInorder;
+                }
             }
         }
 

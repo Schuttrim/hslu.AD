@@ -65,9 +65,43 @@ class TreeSetTest {
         assertTrue(tree.has(3));
         assertFalse(tree.has(4));
     }
-
     @Test
-    @Disabled
+    void RemoveItemWithTwoChildsParentParentNull() {
+        Tree<Integer> tree = TreeSet.Create();
+        tree.add(5);
+        tree.add(3);
+        tree.add(2);
+        tree.add(4);
+        tree.add(6);
+
+        tree.remove(3);
+
+        assertFalse(tree.has(3));
+        assertTrue(tree.has(5));
+        assertTrue(tree.has(2));
+        assertTrue(tree.has(4));
+        assertTrue(tree.has(6));
+    }
+    @Test
+    void RemoveItemWithTwoChilds2() {
+        Tree<Integer> tree = TreeSet.Create();
+        tree.add(1);
+        tree.add(5);
+        tree.add(3);
+        tree.add(2);
+        tree.add(4);
+        tree.add(6);
+
+        tree.remove(3);
+
+        assertFalse(tree.has(3));
+        assertTrue(tree.has(1));
+        assertTrue(tree.has(5));
+        assertTrue(tree.has(2));
+        assertTrue(tree.has(4));
+        assertTrue(tree.has(6));
+    }
+    @Test
     void RemoveItemWithTwoChilds() {
         Tree<Integer> tree = TreeSet.Create();
         tree.add(5);
@@ -105,7 +139,6 @@ class TreeSetTest {
 
 
     @Test
-    @Disabled
     void RemoveRootWithChilds() {
         Tree<Integer> tree = TreeSet.Create();
         tree.add(5);
