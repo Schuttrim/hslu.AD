@@ -1,6 +1,5 @@
 package ch.hslu.tree;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.net.http.HttpResponse;
