@@ -53,5 +53,11 @@ public class TreeDemo {
         while (iterator.hasNext()){
             System.out.println(iterator.next());
         }
+
+        intTree.remove(4);
+        iterator = intTree.inorder();
+        while (iterator.hasNext()){
+            System.out.println(iterator.next());
+        }
     }
 }
