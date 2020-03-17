@@ -4,7 +4,6 @@ public final class HashTableImpl<T> implements HashTable<T> {
     private final int size;
     private Object[] items;
 
-
     public HashTableImpl() {
         this(10);
     }
@@ -15,7 +14,7 @@ public final class HashTableImpl<T> implements HashTable<T> {
     }
 
     @Override
-    public T Search(T value) {
+    public T search(T value) {
         int index = this.getIndexFromHash(value.hashCode());
         T item = this.getItemAt(index);
         if (value.equals(item)){
@@ -26,19 +25,19 @@ public final class HashTableImpl<T> implements HashTable<T> {
     }
 
     @Override
-    public boolean Has(T value) {
-        return this.Search(value) != null;
+    public boolean has(T value) {
+        return this.search(value) != null;
     }
 
     @Override
-    public void Add(T value) {
+    public void add(T value) {
         if (!this.tryAdd(value)) {
             throw new Error("Hashcollision");
         }
     }
 
     @Override
-    public void Remove(T value) {
+    public void remove(T value) {
         int index = this.getIndexFromHash(value.hashCode());
         T item = this.getItemAt(index);
         if (value.equals(item)){
@@ -57,7 +56,7 @@ public final class HashTableImpl<T> implements HashTable<T> {
     }
     private boolean hasItemAt(int index) { return this.items[index] != null; }
     private int getIndexFromHash(int index){
-        return index % this.size;
+        return Math.abs(index % this.size);
     }
     private boolean tryAdd(T value){
         int hash = value.hashCode();

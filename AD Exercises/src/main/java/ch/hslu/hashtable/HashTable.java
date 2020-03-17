@@ -1,8 +1,8 @@
 package ch.hslu.hashtable;
 
 public interface HashTable<T> {
-    T Search(T value);
-    boolean Has(T add);
-    void Add(T value);
-    void Remove(T value);
+    T search(T value);
+    boolean has(T add);
+    void add(T value);
+    void remove(T value);
 }

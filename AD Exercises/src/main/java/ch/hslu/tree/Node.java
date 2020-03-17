@@ -1,7 +1,7 @@
 package ch.hslu.tree;
 
 public class Node<T> {
-    public Node getLeftNode() {
+    public Node<T> getLeftNode() {
         return leftNode;
     }
 
@@ -9,9 +9,9 @@ public class Node<T> {
         this.leftNode = leftNode;
     }
 
-    private Node leftNode;
+    private Node<T> leftNode;
 
-    public Node getRightNode() {
+    public Node<T> getRightNode() {
         return rightNode;
     }
 
@@ -19,7 +19,7 @@ public class Node<T> {
         this.rightNode = rightNode;
     }
 
-    private Node rightNode;
+    private Node<T> rightNode;
 
     public T getValue() {
         return value;
