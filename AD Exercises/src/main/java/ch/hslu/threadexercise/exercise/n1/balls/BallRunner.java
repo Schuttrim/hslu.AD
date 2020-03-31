@@ -3,7 +3,7 @@ package ch.hslu.threadexercise.exercise.n1.balls;
 import java.awt.geom.Ellipse2D;
 
 public class BallRunner implements Runnable {
-    private static final int ballsCount = 40;
+    private static final int ballsCount = 100;
     private static final int maxBallSize = 100;
     private static final String[] colors = {"red", "black", "blue", "yellow", "green", "magenta", "white"};
     private boolean isRunning = false;
@@ -59,7 +59,8 @@ public class BallRunner implements Runnable {
         var canvas = Canvas.getCanvas();
         balls = new Ball[ballsCount];
         for (var i = 0; i < ballsCount; i++){
-            balls[i] = new Ball(random(maxBallSize), random(canvas.getWidth()), random(canvas.getHeight()), random(5) + 1, random(2) + 1, colors[random(colors.length)]);
+            balls[i] = new Ball(random(maxBallSize), random(canvas.getWidth()), random(canvas.getHeight()),
+                    random(6) -3, random(7) + 1, colors[random(colors.length)]);
         }
     }
 
