@@ -9,5 +9,11 @@ public class BallsProgram {
         var thread = new Thread(runner);
 
         thread.run();
+
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

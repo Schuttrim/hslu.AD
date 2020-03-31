@@ -1,9 +1,10 @@
 package ch.hslu.threadexercise.exercise.n1.balls;
 
 import java.awt.geom.Ellipse2D;
+import java.util.Arrays;
 
 public class BallRunner implements Runnable {
-    private static final int ballsCount = 100;
+    private static final int ballsCount = 6;
     private static final int maxBallSize = 100;
     private static final String[] colors = {"red", "black", "blue", "yellow", "green", "magenta", "white"};
     private boolean isRunning = false;
@@ -14,22 +15,26 @@ public class BallRunner implements Runnable {
     }
 
     @Override
-    public void run() {
+    public void run(){
         this.initialize();
         this.execute();
     }
 
-    private void execute() {
-        while (isRunning ){
+    private void execute(){
+        while (isRunning){
             for (var ball : this.balls){
                 erase(ball);
                 this.moveBall(ball);
                 draw(ball);
             }
+            if (Arrays.stream(this.balls).allMatch(ball -> !ball.isVisible())){
+                stop();
+            }
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+                stop();
             }
         }
     }
@@ -50,8 +55,14 @@ public class BallRunner implements Runnable {
     }
 
     private void moveBall(Ball ball){
+        if (!ball.isVisible())
+            return;
         ball.setX(ball.getX() + ball.getxSpeed());
         ball.setY(ball.getY() + ball.getySpeed());
+        var canvas = Canvas.getCanvas();
+        if (!(0 <= ball.getX() && ball.getX() <= canvas.getWidth() && 0 <= ball.getY() && ball.getX() <= canvas.getHeight())){
+            ball.setVisible(false);
+        }
     }
 
     private void initialize(){
