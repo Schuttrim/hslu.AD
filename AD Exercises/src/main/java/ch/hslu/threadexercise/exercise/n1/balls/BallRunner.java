@@ -22,7 +22,7 @@ public class BallRunner implements Runnable {
 
     private void execute(){
         while (isRunning){
-            for (var ball : this.balls){
+            for (var ball : this.balls) {
                 erase(ball);
                 this.moveBall(ball);
                 draw(ball);
