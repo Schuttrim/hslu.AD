@@ -25,6 +25,8 @@ public final class AccountTask implements Runnable {
     private final BankAccount target;
     private final int amount;
 
+    private static final Object transactionLock = new Object();
+
     /**
      * Erzeugt ein Bankauftrag für eine Überweisung von einem Bankkonto auf ein anderes Bankkonto.
      * @param source Quell-Bankkonto
@@ -40,7 +42,8 @@ public final class AccountTask implements Runnable {
     @Override
     public void run() {
         for (int n = 0; n < amount; n++) {
-            source.transfer(target, 1);
+            synchronized (transactionLock){
+            source.transfer(target, 1);}
         }
     }
 }
