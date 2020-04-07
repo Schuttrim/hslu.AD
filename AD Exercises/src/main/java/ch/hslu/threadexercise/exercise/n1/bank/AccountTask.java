@@ -43,7 +43,8 @@ public final class AccountTask implements Runnable {
     public void run() {
         for (int n = 0; n < amount; n++) {
             synchronized (transactionLock){
-            source.transfer(target, 1);}
+                source.transfer(target, 1);
+            }
         }
     }
 }

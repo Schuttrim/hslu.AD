@@ -33,11 +33,16 @@ public class AdditionTask implements Runnable{
         try {
             // Arbeitsphase
             while (this.runThread.isInterrupted() == false && i <= this.rangeEnd && isStopped() == false) {
-                sum += i;
-                i++;
+                try {
+                    sum += i;
+                    i++;
+                    Thread.sleep(10);
+                }
+                catch(InterruptedException ex){
+                    this.runThread.interrupt();
+                }
             }
         }
-        //catch(InterruptedException ex){        }
         finally {
             // Aufräumphase
             if (!isStopped()) {

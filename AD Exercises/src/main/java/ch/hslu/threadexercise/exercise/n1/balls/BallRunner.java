@@ -4,8 +4,8 @@ import java.awt.geom.Ellipse2D;
 import java.util.Arrays;
 
 public class BallRunner implements Runnable {
-    private static final int ballsCount = 6;
-    private static final int maxBallSize = 100;
+    private static final int ballsCount = 20;
+    private static final int maxBallSize = 50;
     private static final String[] colors = {"red", "black", "blue", "yellow", "green", "magenta", "white"};
     private boolean isRunning = false;
     private Ball[] balls;
@@ -31,7 +31,7 @@ public class BallRunner implements Runnable {
                 stop();
             }
             try {
-                Thread.sleep(10);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 stop();

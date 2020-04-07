@@ -8,7 +8,7 @@ public class BallsProgram {
         var runner = new BallRunner();
         var thread = new Thread(runner);
 
-        thread.run();
+        thread.start();
 
         try {
             thread.join();
